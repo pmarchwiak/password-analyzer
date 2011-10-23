@@ -1,0 +1,9 @@
+{
+    "name": "password-analyzer", 
+    "license": "MPL 1.1/GPL 2.0/LGPL 2.1", 
+    "author": "Patrick Marchwiak", 
+    "version": "0.1", 
+    "fullName": "Password Analyzer", 
+    "id": "jid1-8BD4ev1hEALR7w", 
+    "description": "A password strength analyzer"
+}
