@@ -1,5 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8>
+</head>
+<body>
 <h2>Password Analyzer</h2>
+<br/>
+<div id="form">
 <input type="button" value="Analyze!" id="analyze-button"/>
-<div id="options">
-<input type="checkbox" name="length" value="enable">Check length<br />
+<input type="checkbox" name="length" value="enable">Show Passwords<br />
 </div>
+<div id="report">
+<table id="report-table" style="border:1">
+    <tr><th>URL</th><th>Password Length</th></tr>
+</table>
+</div>
+</body>
+</html>

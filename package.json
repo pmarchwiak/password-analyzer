@@ -5,5 +5,5 @@
     "version": "0.1", 
     "fullName": "Password Analyzer", 
     "id": "jid1-8BD4ev1hEALR7w", 
-    "description": "A password strength analyzer"
+    "description": "Analyzes strength of saved passwords"
 }
