@@ -5,7 +5,8 @@ TODO
 ====
 x do basic length analysis and display results
 x add open button to open login form
-* detect duplicates
+x detect duplicates
+** use levenshtein distance to calculate similarity?
 * show entropy
 * dictionary attack
 * detect birthdays

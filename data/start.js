@@ -10,8 +10,10 @@ self.port.on("report", function(report) {
     
     // TODO consider using a templating language instead
     tbody.append('<tr><td><a href="' + entry.formSubmitURL + 
-      '" target="_blank">' + entry.url + '</a></td><td>' + 
-      entry.password.length + '</td></tr>');
+      '" target="_blank">' + entry.url + '</a></td>' + 
+      '<td>' + entry.password.length + '</td>' + 
+      '<td>' + entry.numDupes + '</td>' +
+      '</tr>');
   }
 });
 
