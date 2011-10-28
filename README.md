@@ -4,18 +4,18 @@ Password Analyzer 0.1 by Patrick Marchwiak <pd@marchwiak.com>
 TODO
 ====
 x do basic length analysis and display results
-add open button to open login form
-detect duplicates
-show entropy
-dictionary attack
-detect birthdays
-detect names
-make options
-create icon
-interface with john the ripper?
-use rules on http://www.yetanotherpasswordmeter.com/
-maybe incorporate http://www.geekwisdom.com/js/passwordmeter.js?
-use tab rather than panel?
+x add open button to open login form
+* detect duplicates
+* show entropy
+* dictionary attack
+* detect birthdays
+* detect names
+* make options
+* create icon
+* interface with john the ripper?
+* use rules on http://www.yetanotherpasswordmeter.com/
+* maybe incorporate http://www.geekwisdom.com/js/passwordmeter.js?
+* use tab rather than panel?
 
 Project description:
 

@@ -7,8 +7,11 @@ self.port.on("report", function(report) {
   for (var i = 0; i < report.length; i++) {
     entry = report[i];
     console.log("Appending " + entry.toSource() + " to report");
-    tbody.append("<tr><td>" + entry.url + "</td><td>" + entry.password.length
-      + "</td></tr>");
+    
+    // TODO consider using a templating language instead
+    tbody.append('<tr><td><a href="' + entry.formSubmitURL + 
+      '" target="_blank">' + entry.url + '</a></td><td>' + 
+      entry.password.length + '</td></tr>');
   }
 });
 
