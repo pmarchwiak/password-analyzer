@@ -6,17 +6,19 @@ TODO
 x do basic length analysis and display results
 x add open button to open login form
 x detect duplicates
-** use levenshtein distance to calculate similarity?
-* show entropy
-* dictionary attack
-* detect birthdays
-* detect names
-* make options
-* create icon
-* interface with john the ripper?
-* use rules on http://www.yetanotherpasswordmeter.com/
-* maybe incorporate http://www.geekwisdom.com/js/passwordmeter.js?
-* use tab rather than panel?
+-- use levenshtein distance to calculate similarity?
+- show entropy
+- common password test - http://www.openwall.com/passwords/wordlists/password.lst
+- dictionary attack
+- check for personal info
+- detect birthdays
+- detect names
+- make options
+- create icon
+- interface with john the ripper?
+- use rules on http://www.yetanotherpasswordmeter.com/
+- maybe incorporate http://www.geekwisdom.com/js/passwordmeter.js?
+- use tab rather than panel?
 
 Project description:
 
@@ -45,4 +47,6 @@ as LastPass take care of generation of and storage of passwords but
 require a user's trust of a third-party. There are also Firefox
 extensions like BadPass which analyzes passwords typed into form
 fields and Mass Password Reset, which allows the changing of many
-passwords at once.  
+passwords at once.
+
+Sounds good.  In addition to your code, I'll expect a design document that outlines techniques you used to generate passwords, check bad passwords etc.  The design document does not have to be that long (3-5 pages I'd guess), since most of your work will be in implementation.
