@@ -1,10 +1,11 @@
 self.port.on("report", function(report) {
   console.log("Received report:" + report);
 
-  var tbody = $("#table-container");
+  var tbody = document.getElementById("table-container");
+  tbody.innerHTML = '';
   
   //TODO hide this in the static html rather than adding it to the dom
-  var tableHtml = '<table><tr><th>URL</th><th>Issues</th><th>Username</th>' +
+  var tableHtml = '<table><tr><th>URL</th><th>Problems</th><th>Username</th>' +
     '<th>Password</th><th></th></tr>';
   
   for (var n = 0; n < report.all.length; n++) {
@@ -21,19 +22,40 @@ self.port.on("report", function(report) {
     }
     tableHtml += '</ul></td>';
     tableHtml += '<td>' + entry.username + '</td>';
-    tableHtml += '<td class="password"><input class="password-field" type="password" disabled="disabled" value="' + entry.password + '" /></td>';
+    tableHtml += '<td class="password">';
+    tableHtml += '<input class="password-field" type="password"';
+    tableHtml += ' disabled="disabled" value="' + entry.password + '" /></td>';
     // enable checkbox if "bad"
     var checked = entry.score > 0 ? 'checked="on"' : "";
-    tableHtml += '<td><input type="checkbox" ' + checked + ' ></td></tr>';
+    tableHtml += '<td><input name="tab-checkbox"' +
+     ' value="' + entry.formSubmitURL + '" type="checkbox"' +
+     checked + ' ></td></tr>';
   }
   tableHtml += '</table>';
-  tbody.append(tableHtml);
+  tbody.innerHTML += tableHtml;
   document.getElementById("open-button").style.visibility = "visible";
 });
 
 document.getElementById("analyze-button").onclick = function() {
   console.log("Clicked analyzer passwords");
   self.port.emit("analyze", {option1: false});
+};
+
+document.getElementById("open-button").onclick = function() {
+  console.log("Clicked open tabs button");
+  var checkboxes = document.getElementsByName("tab-checkbox");
+  var urls = {};
+  for (var i = 0; i < checkboxes.length; i++) {
+    var field = checkboxes[i];
+    if (field.checked) {
+      urls[field.value] = 1;
+    }
+  }
+  
+  // open each unique url
+  for (var url in urls) {
+    window.open(url);
+  }
 };
 
 document.getElementById("show-passwords").onchange = function() {
