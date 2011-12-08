@@ -21,7 +21,7 @@ self.port.on("report", function(report) {
     }
     tableHtml += '</ul></td>';
     tableHtml += '<td>' + entry.username + '</td>';
-    tableHtml += '<td class="password">' + entry.password + '</td>';
+    tableHtml += '<td class="password"><input class="password-field" type="password" disabled="disabled" value="' + entry.password + '" /></td>';
     // enable checkbox if "bad"
     var checked = entry.score > 0 ? 'checked="on"' : "";
     tableHtml += '<td><input type="checkbox" ' + checked + ' ></td></tr>';
@@ -36,3 +36,16 @@ document.getElementById("analyze-button").onclick = function() {
   self.port.emit("analyze", {option1: false});
 };
 
+document.getElementById("show-passwords").onchange = function() {
+  console.log("Clicked show-passwords");
+  var fields = document.getElementsByClassName("password-field");
+  for (var i = 0; i < fields.length; i++) {
+    var field = fields[i];
+    if (field.type == "text") {
+      field.type = "password";
+    }
+    else {
+      field.type = "text";
+    }
+  }
+};
