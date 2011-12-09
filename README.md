@@ -1,52 +1,80 @@
-Password Analyzer 0.1 by Patrick Marchwiak <pd@marchwiak.com>
+Password Analyzer
+================
+ 
+Version 0.1
 
-====
-TODO
-====
-x do basic length analysis and display results
-x add open button to open login form
-x detect duplicates
--- use levenshtein distance to calculate similarity?
-- show entropy
-- common password test - http://www.openwall.com/passwords/wordlists/password.lst
-- dictionary attack
-- check for personal info
-- detect birthdays
-- detect names
-- make options
-- create icon
-- interface with john the ripper?
-- use rules on http://www.yetanotherpasswordmeter.com/
-- maybe incorporate http://www.geekwisdom.com/js/passwordmeter.js?
-- use tab rather than panel?
+by Patrick Marchwiak <pd@marchwiak.com>
 
-Project description:
+1. INTRODUCTION
+---------------
+One of the biggest headaches for users of the internet today is the management 
+of passwords. The vast majority of online service requires the creation of an
+account with a password. Most moderate internet users have tens if not hundreds
+of different accounts. Password Analyzer is a tool that can be used to analyze
+ the strength of passwords stored in a user’s Firefox saved
+password database.
 
-One of the biggest headaches in personal computing today is the
-management of passwords. Almost every online service requires the
-creation of an account with a unique password. Most moderate internet
-users have tens if not hundreds of accounts. As far as I know, there
-is no easy way to analyze and change these passwords en masse.
+2. USAGE
+--------
+Password Analyzer is implemented as a Firefox add-on. After the add-on is 
+installed, the user must click the widget in the add-on bar at the bottom of 
+the browser window. Once the widget is clicked the Password Analyzer window will
+open. Clicking the “Analyze” button will run the strength analysis algorithms
+across the user’s saved passwords and display the results. Results are displayed
+in a table with each row representing a single website / account sorted by
+increasing password strength. For each website the URL, username, and password
+are displayed along with a list of problems that have been found with
+the password strength.
 
-My idea is the creation of a Firefox extension that would help users
-to analyze their existing saved passwords for security. Various
-techniques could be used to determine how risky a password is
-including checking for common words, short lengths, personal
-information (obtained from saved form info), and similarity to other
-saved passwords. If time allots, I will also attempt to provide an
-automated method for changing passwords both in the saved passwords
-database and external sites. Heuristics could potentially be developed
-to find a website's change password dialog and fill it in with an
-existing password and a desired new password automatically.
-Alternatively a database of popular website change password pages
-could be developed.
+Once the user has reviewed the results of the analysis, she can select the
+websites whose password she would like to change by checking the checkbox next
+to it. By default, all passwords for which a problem has been found will be
+selected. Clicking the “Open Selected Websites” button will open all the
+selected websites in a new tab. The user must then find the password change
+link, change their password, and ask Firefox to save it again.
 
-There do exist a number of tools that have some overlap with this idea
-and I hope to use them for inspiration. Password management tools such
-as LastPass take care of generation of and storage of passwords but
-require a user's trust of a third-party. There are also Firefox
-extensions like BadPass which analyzes passwords typed into form
-fields and Mass Password Reset, which allows the changing of many
-passwords at once.
+3. STRENGTH TESTS
+-----------------
+There are many factors that contribute to password strength. Password Analyzer
+uses a set of tests that evaluate the strength across various dimensions. Each
+test sets a result message which is displayed in the problem list and a score
+which is summed across all the tests to rank the passwords in strength. In the
+current implementation, each test simply sets a score of 1 or 0.
 
-Sounds good.  In addition to your code, I'll expect a design document that outlines techniques you used to generate passwords, check bad passwords etc.  The design document does not have to be that long (3-5 pages I'd guess), since most of your work will be in implementation.
+3.1 Duplicates
+--------------
+Password reuse across multiple websites is a very common issue. A study by
+Trusteer in 2010 showed that 73% of users shared their online banking password
+with at least one nonfinancial website. The duplicates test counts the number of
+times a password is reused. A password fails this test if the count is more than
+0.
+
+3.2 Entropy
+-----------
+Entropy is a common measure of password strength. Password Analyzer uses the
+standard entropy formula as provided in the NIST Electronic Authentication
+Guideline: log2(alphabet_size^length). Four different alphabets are considered:
+“digits”, “lowercase alpha”, and “alpha-numeric”, and “all”. The entropy test
+uses regular expressions to determine whether a password consists of only
+characters in the first three alphabets, defaulting to “all” if it does not. A
+password fails this test if it has an entropy less than 52 (the entropy of an
+8-character password with a mix of lowercase, uppercase, digits, and special
+characters).
+
+3.3 Common
+----------
+Analysis of passwords obtained from database comprises have shown that some
+passwords, such as “password” and “12345”, are very common among users. Password
+Analyzer uses a list of such passwords compiled by the Openwall project. A
+password fails this test if it is a substring of any word in the list.
+
+4. FUTURE WORK
+--------------
+The current analysis algorithms are very simplistic and only capture a small
+subset of the potential sources of password weakness. Some ideas for future 
+enhancements include:
+* Calculate password similarity using Levenshtein distance.
+* Use a larger password dictionary.
+* Look for personal info in passwords such as dates and the user’s name.
+* Automatically find a website’s change password page and direct users to it.
+

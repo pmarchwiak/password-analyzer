@@ -1,12 +1,16 @@
+var openBtn = document.getElementById("open-button");
+var showPwLbl = document.getElementById("show-passwords-label");
+var showPw = document.getElementById("show-passwords");
+var infoContainer = document.getElementById("info-container");
+var analyzeBtn = document.getElementById("analyze-button");
+var tableContainer = document.getElementById("table-container");
+  
 self.port.on("report", function(report) {
   console.log("Received report:" + report);
-
-  var tbody = document.getElementById("table-container");
-  tbody.innerHTML = '';
   
   //TODO hide this in the static html rather than adding it to the dom
   var tableHtml = '<table><tr><th>URL</th><th>Problems <a href="#info">(more info)</a></th><th>Username</th>' +
-    '<th>Password</th><th></th></tr>';
+    '<th>Password</th><th><input type="checkbox" id="check-all" /></th></tr>';
   
   for (var n = 0; n < report.all.length; n++) {
     var entry = report.all[n];
@@ -32,23 +36,40 @@ self.port.on("report", function(report) {
      checked + ' ></td></tr>';
   }
   tableHtml += '</table>';
-  tbody.innerHTML += tableHtml;
-  document.getElementById("open-button").style.visibility = "visible";
-  var elems = document.getElementsByClassName("show");
-  for (var i = 1; i < elems.length; i++) {
-    var elem = elems[i];
-    elem.style.visibility = "visible";
-  };
-  document.getElementById("show-passwords").style.visibility = "visible";
-  document.getElementById("info-container").style.visibility = "visible";
+  tableContainer.innerHTML += tableHtml;
+  
+  var hiddens = document.getElementsByClassName("hide");
+  for (var i = 0; i < hiddens.length; i++) {
+    console.log("Showing hidden " + hiddens[i].id);
+    hiddens[i].style.visibility = "visible";
+  }
+  
+  var checkAll = document.getElementById("check-all");
+  checkAll.onchange = function() {
+    console.log("Clicked check all");
+    var checkboxes = document.getElementsByName("tab-checkbox");
+    for (var i = 0; i < checkboxes.length; i++) {
+      var field = checkboxes[i];
+      if (checkAll.checked) {
+        field.checked = true;
+      }
+      else {
+        field.checked = false;
+      }
+    }
+  }
+  
+  analyzeBtn.value = "Analyze!"
 });
 
-document.getElementById("analyze-button").onclick = function() {
+analyzeBtn.onclick = function() {
   console.log("Clicked analyzer passwords");
+  tableContainer.innerHTML = '';
   self.port.emit("analyze", {option1: false});
+  analyzeBtn.value = "Analyzing..."
 };
 
-document.getElementById("open-button").onclick = function() {
+openBtn.onclick = function() {
   console.log("Clicked open tabs button");
   var checkboxes = document.getElementsByName("tab-checkbox");
   var urls = {};
@@ -65,7 +86,7 @@ document.getElementById("open-button").onclick = function() {
   }
 };
 
-document.getElementById("show-passwords").onchange = function() {
+showPw.onchange = function() {
   console.log("Clicked show-passwords");
   var fields = document.getElementsByClassName("password-field");
   for (var i = 0; i < fields.length; i++) {
@@ -78,3 +99,5 @@ document.getElementById("show-passwords").onchange = function() {
     }
   }
 };
+
+
