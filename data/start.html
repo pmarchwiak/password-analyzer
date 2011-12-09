@@ -13,6 +13,9 @@
     margin: 10px;
     padding: 0px;
   }
+  .h2 {
+    float: right;
+  }
   .report-table table {
     border: 1px solid #D0D0D0;
     margin: 20px;
@@ -30,11 +33,17 @@
   #open-button {
     visibility: hidden;
   }
+  .show {
+    visibility: hidden;
+  }
   .icon {
     float: left;
   }
   .password-field {
     width: 90px;
+  }
+  #info-container {
+    visibility: hidden;
   }
   </style>
 </head>
@@ -42,15 +51,35 @@
 <img class="icon" src="icon.png" /><h2>Password Analyzer</h2>
 <br />
 <div id="intro">
-  <p>A tool that analyzes the strength of the passwords in your saved passwords
-  database and helps you change the weak ones.
+  <p>A tool that analyzes the strength of your saved passwords
+  and helps you change the weak ones.
   </p>
 <div id="form">
   <input type="button" value="Analyze!" id="analyze-button"/>
-  <input type="checkbox" id="show-passwords" value="enable">Show Passwords<br />
+  <input type="checkbox" id="show-passwords" class="show" value="enable">
+  <span class="show">Show Passwords</span><br />
 </div>
 <input type="button" value="Open Selected in New Tabs" id="open-button" />
 <div id="table-container" class="report-table bad">
+</div>
+<div id="info-container">
+<h3 id="info">More information</h3>
+<h4>Duplicates</h4>
+<p>Reusing passwords is less safe than using unique passwords. If an attacker 
+learns your password for one account (through hacking or by guessing), he/she
+is likely to use it to break into another account.
+</p>
+<h4>Common passwords</h4>
+<p>Some passwords such as "password" and "1234" are very popular and thus can
+be easily guessed by attackers. Avoid using passwords that are common dictionary
+words or sequences of letters or numbers.</p>
+<h4>Complexity</h4>
+<p>A common recommendation for creating a strong a password is to ensure that it
+is at least 8 characters long, and is combination of lowercase and uppercase
+letters, digits, and special characters. This add-on considers passwords with
+entropy lower than 52 to be "too simple" where entropy is calculated as <br />
+log2(alphabet_size^password_length)
+</p>
 </div>
 </body>
 </html>

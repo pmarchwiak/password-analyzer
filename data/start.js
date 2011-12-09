@@ -5,7 +5,7 @@ self.port.on("report", function(report) {
   tbody.innerHTML = '';
   
   //TODO hide this in the static html rather than adding it to the dom
-  var tableHtml = '<table><tr><th>URL</th><th>Problems</th><th>Username</th>' +
+  var tableHtml = '<table><tr><th>URL</th><th>Problems <a href="#info">(more info)</a></th><th>Username</th>' +
     '<th>Password</th><th></th></tr>';
   
   for (var n = 0; n < report.all.length; n++) {
@@ -34,6 +34,13 @@ self.port.on("report", function(report) {
   tableHtml += '</table>';
   tbody.innerHTML += tableHtml;
   document.getElementById("open-button").style.visibility = "visible";
+  var elems = document.getElementsByClassName("show");
+  for (var i = 1; i < elems.length; i++) {
+    var elem = elems[i];
+    elem.style.visibility = "visible";
+  };
+  document.getElementById("show-passwords").style.visibility = "visible";
+  document.getElementById("info-container").style.visibility = "visible";
 });
 
 document.getElementById("analyze-button").onclick = function() {
