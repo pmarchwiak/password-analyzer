@@ -78,3 +78,9 @@ enhancements include:
 * Look for personal info in passwords such as dates and the user’s name.
 * Automatically find a website’s change password page and direct users to it.
 
+5. REFERENCES
+-------------
+Reused Login Credentials. White paper from http://www.trusteer.com/sites/default/files/cross-
+logins-advisory.pdf
+Special Publication 800-63: NIST Electronic Authentication Guideline from
+http://csrc.nist.gov/publications/nistpubs/800-63/SP800-63V1_0_2.pdf
