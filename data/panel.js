@@ -4,7 +4,18 @@ var showPw = document.getElementById("show-passwords");
 var infoContainer = document.getElementById("info-container");
 var analyzeBtn = document.getElementById("analyze-button");
 var tableContainer = document.getElementById("table-container");
-  
+
+var height = 800;
+var width = 800;
+var screenWidth = window.screen.availWidth - 100;
+var screenHeight = window.screen.availHeight - 100;
+width = screenWidth <= width ? screenWidth : width;
+height = screenHeight <= height ? screenHeight : height;
+console.log("Available res is " + (screenWidth + 100) + "x" + 
+  (screenHeight + 100));
+
+self.port.emit("resize", {height: height, width: width});
+
 self.port.on("report", function(report) {
   console.log("Received report:" + report);
   
