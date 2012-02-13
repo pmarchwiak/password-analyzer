@@ -1,6 +1,7 @@
 body {
   font: 100% arial, helvetica, sans-serif;
   background-color: #F5F5F5;
+  color: black;
 }
 textarea {
   width: 180px;
