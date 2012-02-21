@@ -1,9 +1,9 @@
-var openBtn = document.getElementById("open-button");
-var showPwLbl = document.getElementById("show-passwords-label");
-var showPw = document.getElementById("show-passwords");
-var infoContainer = document.getElementById("info-container");
-var analyzeBtn = document.getElementById("analyze-button");
-var tableContainer = document.getElementById("table-container");
+var openBtn = $("#open-button");
+var showPwLbl = $("#show-passwords-label");
+var showPw = $("#show-passwords");
+var infoContainer = $("#info-container");
+var analyzeBtn = $("#analyze-button");
+var tableContainer = $("#table-container");
 
 var height = 800;
 var width = 800;
@@ -15,78 +15,70 @@ console.log("Available res is " + (screenWidth + 100) + "x" +
   (screenHeight + 100));
 
 self.port.emit("resize", {height: height, width: width});
-
 self.port.on("report", function(report) {
   console.log("Received report:" + report);
   
   if (report.all.length == 0 || report.all[0].score == 0) {
-    tableContainer.innerHTML += "<span>No problems found.</span>";
+    tableContainer.append("<span>").text("No problems found");
   }
   else {
-    //TODO hide this in the static html rather than adding it to the dom
-    var tableHtml = '<table><tr><th>URL</th>' + 
-      '<th>Problems <a href="#info">(more info)</a></th><th>Username</th>' +
-      '<th>Password</th><th><input type="checkbox" id="check-all" /></th></tr>';
+    var table = $('<table/>').appendTo(tableContainer);
+    $('<tr><th>URL</th>' + 
+      '<th>Problems <a href="#info">(more info)</a></th>' +
+      '<th>Username</th><th>Password</th>' +
+     '<th><input type="checkbox" id="check-all" /></th></tr>"').appendTo(table);
     
     for (var n = 0; n < report.all.length; n++) {
       var entry = report.all[n];
       console.log("Appending " + entry.toSource() + " to report");
       
       // TODO consider using a templating language instead of this ugliness
-      tableHtml += '<tr><td>' + 
-        '<a href="' + entry.formSubmitURL + '" target="_blank">' + 
-        entry.url + '</a></td>';
-      tableHtml += '<td><ul>';
+      var row = $('<tr/>').appendTo(table);
+      var col = $('<td/>').appendTo(row);
+      $('<a/>', {href: entry.formSubmitURL, 
+                target: '_blank', 
+                text: entry.formSubmitURL}).appendTo(col);
+      
+      col = $('<td/>').appendTo(row);
+      var list = $('<ul/>').appendTo(col);
       for (var i = 0; i < entry.issues.length; i++) {
-        tableHtml += '<li>' + entry.issues[i] + '</li>';
+        list.append($('<li/>', {text: entry.issues[i]}));
       }
-      tableHtml += '</ul></td>';
-      tableHtml += '<td>' + entry.username + '</td>';
-      tableHtml += '<td class="password">';
-      tableHtml += '<input class="password-field" type="password"';
-      tableHtml += ' disabled="disabled" value="' + entry.password + '" /></td>';
-      // enable checkbox if "bad"
+      row.append($('<td/>', {text: entry.username}));
+      
+      var pwCol = $('<td/>', {"class": 'password'}).appendTo(row);
+      pwCol.append($('<input/>', {"class": 'password-field', type: 'password',
+        disabled: 'disabled', value: entry.password}));
+      var checkBoxCol = $('<td/>').appendTo(row);
+
+      // enable checkbox if "bad"      
       var checked = entry.score > 0 ? 'checked="on"' : "";
-      tableHtml += '<td><input name="tab-checkbox"' +
-       ' value="' + entry.formSubmitURL + '" type="checkbox"' +
-       checked + ' ></td></tr>';
+      checkBoxCol.append($('<input/>', {name:'tab-checkbox', 
+        value: entry.formSubmitURL, type: 'checkbox', checked: checked}));
     }
-    tableHtml += '</table>';
-    tableContainer.innerHTML += tableHtml;
     
-     var checkAll = document.getElementById("check-all");
-    checkAll.onchange = function() {
+    var checkAll = $("#check-all");
+    checkAll.change(function() {
       console.log("Clicked check all");
-      var checkboxes = document.getElementsByName("tab-checkbox");
-      for (var i = 0; i < checkboxes.length; i++) {
-        var field = checkboxes[i];
-        if (checkAll.checked) {
-          field.checked = true;
-        }
-        else {
-          field.checked = false;
-        }
-      }
-    }
+      var checkAllState = checkAll.checked;
+      $("input[name='tab-checkbox']").prop('checked', checkAllState);
+    });
     
-    var hiddens = document.getElementsByClassName("hide");
-    for (var i = 0; i < hiddens.length; i++) {
-      console.log("Showing hidden " + hiddens[i].id);
-      hiddens[i].style.visibility = "visible";
-    }
+    //console.log("Showing hiddens");
+    $("#hide").show();
   }
   
-  analyzeBtn.value = "Analyze!"
+  analyzeBtn.val("Analyze!");
 });
 
-analyzeBtn.onclick = function() {
+analyzeBtn.click(function() {
   console.log("Clicked analyzer passwords");
-  tableContainer.innerHTML = '';
+  tableContainer.empty();
   self.port.emit("analyze", {option1: false});
-  analyzeBtn.value = "Analyzing..."
-};
+  analyzeBtn.val("Analyzing...");
+});
 
-openBtn.onclick = function() {
+openBtn.click(function() {
   console.log("Clicked open tabs button");
   var checkboxes = document.getElementsByName("tab-checkbox");
   var urls = {};
@@ -101,9 +93,9 @@ openBtn.onclick = function() {
   for (var url in urls) {
     window.open(url);
   }
-};
+});
 
-showPw.onchange = function() {
+showPw.change(function() {
   console.log("Clicked show-passwords");
   var fields = document.getElementsByClassName("password-field");
   for (var i = 0; i < fields.length; i++) {
@@ -115,6 +107,4 @@ showPw.onchange = function() {
       field.type = "text";
     }
   }
-};
-
-
+});
