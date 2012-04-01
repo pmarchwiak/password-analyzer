@@ -60,8 +60,9 @@ self.port.on("report", function(report) {
     var checkAll = $("#check-all");
     checkAll.change(function() {
       console.log("Clicked check all");
-      var checkAllState = checkAll.checked;
-      $("input[name='tab-checkbox']").prop('checked', checkAllState);
+      var checkAllState = checkAll.prop('checked');
+      console.log("Check all state: " + checkAllState);
+      $("input[name=tab-checkbox]").prop('checked', checkAllState);
     });
     
     //console.log("Showing hiddens");
