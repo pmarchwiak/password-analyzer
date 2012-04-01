@@ -77,7 +77,9 @@ enhancements include:
 * Calculate password similarity using Levenshtein distance.
 * Use a larger password dictionary.
 * Look for personal info in passwords such as dates and the user’s name.
-* Automatically find a website’s change password page and direct users to it.
+* Automatically find a website’s change password page and direct users to it, or
+make list of urls for popular sites.
+* Don't treat subdomains as duplicates
 
 REFERENCES
 -------------
