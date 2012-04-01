@@ -56,7 +56,7 @@ self.port.on("report", function(report) {
       var checkBoxCol = $('<td class="checkbox-col"/>').appendTo(row);
 
       // enable checkbox if "bad"      
-      var checked = entry.score > 0 ? 'checked="on"' : "";
+      var checked = entry.score > 0;
       checkBoxCol.append($('<input/>', {name:'tab-checkbox', 
         value: entry.formSubmitURL, type: 'checkbox', checked: checked}));
     }
