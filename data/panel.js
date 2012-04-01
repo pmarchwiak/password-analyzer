@@ -6,7 +6,7 @@ var analyzeBtn = $("#analyze-button");
 var tableContainer = $("#table-container");
 
 var height = 800;
-var width = 800;
+var width = 1000;
 var screenWidth = window.screen.availWidth - 100;
 var screenHeight = window.screen.availHeight - 100;
 width = screenWidth <= width ? screenWidth : width;
@@ -23,16 +23,19 @@ self.port.on("report", function(report) {
   }
   else {
     var table = $('<table/>').appendTo(tableContainer);
+    table.css('width', width - 100);
     $('<tr><th>URL</th>' + 
       '<th>Problems <a href="#info">(more info)</a></th>' +
       '<th>Username</th><th>Password</th>' +
-     '<th><input type="checkbox" id="check-all" /></th></tr>"').appendTo(table);
+      '<th class="checkbox-col">' +
+      '<input type="checkbox" id="check-all" /></th></tr>"').appendTo(table);
     
     for (var n = 0; n < report.all.length; n++) {
       var entry = report.all[n];
       console.log("Appending " + entry.toSource() + " to report");
       
       // TODO consider using a templating language instead of this ugliness
+      // build dynamic table content with jquery so that all content is escaped
       var row = $('<tr/>').appendTo(table);
       var col = $('<td/>').appendTo(row);
       $('<a/>', {href: entry.formSubmitURL, 
@@ -50,7 +53,7 @@ self.port.on("report", function(report) {
       var inputType = showPw.prop('checked') ? 'text': 'password'; 
       pwCol.append($('<input/>', {"class": 'password-field', type: inputType,
         disabled: 'disabled', value: entry.password}));
-      var checkBoxCol = $('<td/>').appendTo(row);
+      var checkBoxCol = $('<td class="checkbox-col"/>').appendTo(row);
 
       // enable checkbox if "bad"      
       var checked = entry.score > 0 ? 'checked="on"' : "";

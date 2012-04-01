@@ -12,10 +12,20 @@ textarea {
 .report-table table {
   border: 1px solid #D0D0D0;
   margin: 20px;
+  table-layout: fixed;
 }
 .report-table th {
   border-bottom: 1px solid #D0D0D0;
+  border-right: 1px solid #D0D0D0;
   background-color: #F2F2F2;
+}
+.report-table td {
+  width: auto;
+  word-wrap: break-word;
+}
+.checkbox-col {
+  width: 5%;
+  text-align: center; // center checkboxes
 }
 .bad h3 {
   color: red;
