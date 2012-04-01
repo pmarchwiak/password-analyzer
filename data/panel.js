@@ -47,7 +47,8 @@ self.port.on("report", function(report) {
       row.append($('<td/>', {text: entry.username}));
       
       var pwCol = $('<td/>', {"class": 'password'}).appendTo(row);
-      pwCol.append($('<input/>', {"class": 'password-field', type: 'password',
+      var inputType = showPw.prop('checked') ? 'text': 'password'; 
+      pwCol.append($('<input/>', {"class": 'password-field', type: inputType,
         disabled: 'disabled', value: entry.password}));
       var checkBoxCol = $('<td/>').appendTo(row);
 
@@ -96,14 +97,12 @@ openBtn.click(function() {
 
 showPw.change(function() {
   console.log("Clicked show-passwords");
-  var fields = document.getElementsByClassName("password-field");
-  for (var i = 0; i < fields.length; i++) {
-    var field = fields[i];
-    if (field.type == "text") {
-      field.type = "password";
+  $(".password-field").each(function(i){
+    if (this.type == "text") {
+      this.type = "password";
     }
     else {
-      field.type = "text";
+      this.type = "text";
     }
-  }
+  });
 });
