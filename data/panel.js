@@ -65,8 +65,7 @@ self.port.on("report", function(report) {
       $("input[name=tab-checkbox]").prop('checked', checkAllState);
     });
     
-    //console.log("Showing hiddens");
-    $("#hide").show();
+    $(".hidden").show();
   }
   
   analyzeBtn.val("Analyze!");
@@ -75,21 +74,20 @@ self.port.on("report", function(report) {
 analyzeBtn.click(function() {
   console.log("Clicked analyzer passwords");
   tableContainer.empty();
-  self.port.emit("analyze", {option1: false});
+  self.port.emit("analyze", {});
   analyzeBtn.val("Analyzing...");
 });
 
 openBtn.click(function() {
   console.log("Clicked open tabs button");
-  var checkboxes = document.getElementsByName("tab-checkbox");
-  var urls = {};
-  for (var i = 0; i < checkboxes.length; i++) {
-    var field = checkboxes[i];
-    if (field.checked) {
-      urls[field.value] = 1;
+  var urls = {}; // treat this as a set (js doesn't have them!)
+  $("input[name=tab-checkbox]").each(function(i) {
+    if (this.checked) {
+      urls[this.value] = 1;
     }
-  }
-  
+  });
+
+  console.log("urls: " + urls);
   // open each unique url
   for (var url in urls) {
     window.open(url);

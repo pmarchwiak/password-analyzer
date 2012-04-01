@@ -23,8 +23,8 @@ textarea {
 .form {
   float: left;
 }
-.hide {
-  visibility: hidden;
+.hidden {
+  display: none;
 }
 .icon {
   float: left;
