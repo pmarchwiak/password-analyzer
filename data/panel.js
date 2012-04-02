@@ -38,9 +38,10 @@ self.port.on("report", function(report) {
       // build dynamic table content with jquery so that all content is escaped
       var row = $('<tr/>').appendTo(table);
       var col = $('<td/>').appendTo(row);
-      $('<a/>', {href: entry.formSubmitURL, 
+      var url = entry.formSubmitURL ? entry.formSubmitURL : entry.url;
+      $('<a/>', {href: url, 
                 target: '_blank', 
-                text: entry.formSubmitURL}).appendTo(col);
+                text: url}).appendTo(col);
       
       col = $('<td/>').appendTo(row);
       var list = $('<ul/>').appendTo(col);
@@ -58,7 +59,7 @@ self.port.on("report", function(report) {
       // enable checkbox if "bad"      
       var checked = entry.score > 0;
       checkBoxCol.append($('<input/>', {name:'tab-checkbox', 
-        value: entry.formSubmitURL, type: 'checkbox', checked: checked}));
+        value: url, type: 'checkbox', checked: checked}));
     }
     
     var checkAll = $("#check-all");
