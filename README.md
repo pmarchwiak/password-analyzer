@@ -1,7 +1,7 @@
 Password Analyzer
 ================
  
-Version 0.1
+Version 0.2
 
 by Patrick Marchwiak <pd@marchwiak.com>
 
@@ -84,4 +84,5 @@ make list of urls for popular sites.
 REFERENCES
 -------------
 Reused Login Credentials. White paper from http://www.trusteer.com/sites/default/files/cross-logins-advisory.pdf
+
 Special Publication 800-63: NIST Electronic Authentication Guideline from http://csrc.nist.gov/publications/nistpubs/800-63/SP800-63V1_0_2.pdf
