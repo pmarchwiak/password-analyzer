@@ -5,7 +5,7 @@ https://addons.mozilla.org/en-US/firefox/addon/password-analyzer/
 
 Version 0.2
 
-by Patrick Marchwiak <pd@marchwiak.com>
+by Patrick Marchwiak
 
 INTRODUCTION
 ---------------
