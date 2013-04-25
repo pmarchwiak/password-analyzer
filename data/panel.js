@@ -11,12 +11,12 @@ var screenWidth = window.screen.availWidth - 100;
 var screenHeight = window.screen.availHeight - 100;
 width = screenWidth <= width ? screenWidth : width;
 height = screenHeight <= height ? screenHeight : height;
-console.log("Available res is " + (screenWidth + 100) + "x" + 
+console.debug("Available res is " + (screenWidth + 100) + "x" + 
   (screenHeight + 100));
 
 self.port.emit("resize", {height: height, width: width});
 self.port.on("report", function(report) {
-  console.log("Received report:" + report);
+  console.debug("Received report:" + report);
   
   if (report.all.length == 0 || report.all[0].score == 0) {
     tableContainer.append("<span>").text("No problems found");
@@ -32,7 +32,7 @@ self.port.on("report", function(report) {
     
     for (var n = 0; n < report.all.length; n++) {
       var entry = report.all[n];
-      console.log("Appending " + entry.toSource() + " to report");
+      console.debug("Appending " + entry.toSource() + " to report");
       
       // TODO consider using a templating language instead of this ugliness
       // build dynamic table content with jquery so that all content is escaped
@@ -64,9 +64,9 @@ self.port.on("report", function(report) {
     
     var checkAll = $("#check-all");
     checkAll.change(function() {
-      console.log("Clicked check all");
+      console.debug("Clicked check all");
       var checkAllState = checkAll.prop('checked');
-      console.log("Check all state: " + checkAllState);
+      console.debug("Check all state: " + checkAllState);
       $("input[name=tab-checkbox]").prop('checked', checkAllState);
     });
     
@@ -77,14 +77,14 @@ self.port.on("report", function(report) {
 });
 
 analyzeBtn.click(function() {
-  console.log("Clicked analyzer passwords");
+  console.debug("Clicked analyzer passwords");
   tableContainer.empty();
   self.port.emit("analyze", {});
   analyzeBtn.val("Analyzing...");
 });
 
 openBtn.click(function() {
-  console.log("Clicked open tabs button");
+  console.debug("Clicked open tabs button");
   var urls = {}; // treat this as a set (js doesn't have them!)
   $("input[name=tab-checkbox]").each(function(i) {
     if (this.checked) {
@@ -92,7 +92,7 @@ openBtn.click(function() {
     }
   });
 
-  console.log("urls: " + urls);
+  console.debug("urls: " + urls);
   // open each unique url
   for (var url in urls) {
     window.open(url);
@@ -100,7 +100,7 @@ openBtn.click(function() {
 });
 
 showPw.change(function() {
-  console.log("Clicked show-passwords");
+  console.debug("Clicked show-passwords");
   $(".password-field").each(function(i){
     if (this.type == "text") {
       this.type = "password";
