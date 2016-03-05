@@ -16,64 +16,70 @@ console.debug("Available res is " + (screenWidth + 100) + "x" +
 
 self.port.emit("resize", {height: height, width: width});
 self.port.on("report", function(report) {
-  console.debug("Received report:" + report);
-  
-  if (report.all.length == 0 || report.all[0].score == 0) {
-    tableContainer.append("<span>").text("No problems found");
-  }
-  else {
-    var table = $('<table/>').appendTo(tableContainer);
-    table.css('width', width - 100);
-    $('<tr><th>URL</th>' + 
-      '<th>Problems <a href="#info">(more info)</a></th>' +
-      '<th>Username</th><th>Password</th>' +
-      '<th class="checkbox-col">' +
-      '<input type="checkbox" id="check-all" /></th></tr>"').appendTo(table);
+  try {
+    console.debug("Received report");
     
-    for (var n = 0; n < report.all.length; n++) {
-      var entry = report.all[n];
-      console.debug("Appending " + entry.toSource() + " to report");
-      
-      // TODO consider using a templating language instead of this ugliness
-      // build dynamic table content with jquery so that all content is escaped
-      var row = $('<tr/>').appendTo(table);
-      var col = $('<td/>').appendTo(row);
-      var url = entry.formSubmitURL ? entry.formSubmitURL : entry.url;
-      $('<a/>', {href: url, 
-                target: '_blank', 
-                text: url}).appendTo(col);
-      
-      col = $('<td/>').appendTo(row);
-      var list = $('<ul/>').appendTo(col);
-      for (var i = 0; i < entry.issues.length; i++) {
-        list.append($('<li/>', {text: entry.issues[i]}));
-      }
-      row.append($('<td/>', {text: entry.username}));
-      
-      var pwCol = $('<td/>', {"class": 'password'}).appendTo(row);
-      var inputType = showPw.prop('checked') ? 'text': 'password'; 
-      pwCol.append($('<input/>', {"class": 'password-field', type: inputType,
-        disabled: 'disabled', value: entry.password}));
-      var checkBoxCol = $('<td class="checkbox-col"/>').appendTo(row);
-
-      // enable checkbox if "bad"      
-      var checked = entry.score > 0;
-      checkBoxCol.append($('<input/>', {name:'tab-checkbox', 
-        value: url, type: 'checkbox', checked: checked}));
+    if (report.all.length == 0 || report.all[0].score == 0) {
+      tableContainer.append("<span>").text("No problems found");
     }
+    else {
+      var table = $('<table/>').appendTo(tableContainer);
+      table.css('width', width - 100);
+      $('<tr><th>URL</th>' + 
+        '<th>Problems <a href="#info">(more info)</a></th>' +
+        '<th>Username</th><th>Password</th>' +
+        '<th class="checkbox-col">' +
+        '<input type="checkbox" id="check-all" /></th></tr>"').appendTo(table);
+      
+      for (var n = 0; n < report.all.length; n++) {
+        var entry = report.all[n];
+        console.debug("Appending " + entry.toSource() + " to report");
+        
+        // TODO consider using a templating language instead of this ugliness
+        // build dynamic table content with jquery so that all content is escaped
+        var row = $('<tr/>').appendTo(table);
+        var col = $('<td/>').appendTo(row);
+        var url = entry.formSubmitURL ? entry.formSubmitURL : entry.url;
+        $('<a/>', {href: url, 
+                  target: '_blank', 
+                  text: url}).appendTo(col);
+        
+        col = $('<td/>').appendTo(row);
+        var list = $('<ul/>').appendTo(col);
+        for (var i = 0; i < entry.issues.length; i++) {
+          list.append($('<li/>', {text: entry.issues[i]}));
+        }
+        row.append($('<td/>', {text: entry.username}));
+        
+        var pwCol = $('<td/>', {"class": 'password'}).appendTo(row);
+        var inputType = showPw.prop('checked') ? 'text': 'password'; 
+        pwCol.append($('<input/>', {"class": 'password-field', type: inputType,
+          disabled: 'disabled', value: entry.password}));
+        var checkBoxCol = $('<td class="checkbox-col"/>').appendTo(row);
+
+        // enable checkbox if "bad"      
+        var checked = entry.score > 0;
+        checkBoxCol.append($('<input/>', {name:'tab-checkbox', 
+          value: url, type: 'checkbox', checked: checked}));
+      }
+      
+      var checkAll = $("#check-all");
+      checkAll.change(function() {
+        console.debug("Clicked check all");
+        var checkAllState = checkAll.prop('checked');
+        console.debug("Check all state: " + checkAllState);
+        $("input[name=tab-checkbox]").prop('checked', checkAllState);
+      });
+      
+      $(".hidden").show();
+    }
+
     
-    var checkAll = $("#check-all");
-    checkAll.change(function() {
-      console.debug("Clicked check all");
-      var checkAllState = checkAll.prop('checked');
-      console.debug("Check all state: " + checkAllState);
-      $("input[name=tab-checkbox]").prop('checked', checkAllState);
-    });
-    
-    $(".hidden").show();
+    analyzeBtn.val("Analyze!");
   }
-  
-  analyzeBtn.val("Analyze!");
+  catch (e) {
+    
+  }
 });
 
 analyzeBtn.click(function() {

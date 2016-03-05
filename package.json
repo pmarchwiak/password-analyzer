@@ -1,10 +1,12 @@
 {
     "name": "password-analyzer",
     "fullName": "Password Analyzer",
+    "title": "Password Analyzer",
     "description": "Analyzes strength of saved passwords.",
     "author": "Patrick Marchwiak",
-    "icon": "data/icon.png",
+    "icon": "resource://@password-analyzer/data/icon.png",
+    "main": "lib/main.js",
     "license": "MPL 1.1/GPL 2.0/LGPL 2.1",
-    "id": "jid1-8BD4ev1hEALR7w",
-    "version": "0.3"
+    "id": "jid1-8BD4ev1hEALR7w@jetpack",
+    "version": "0.5.6"
 }

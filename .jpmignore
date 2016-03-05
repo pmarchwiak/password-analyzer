@@ -1,0 +1,4 @@
+.jpmignore
+*.xpi
+.DS_Store
+.git*
